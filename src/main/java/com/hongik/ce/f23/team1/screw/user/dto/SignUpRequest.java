@@ -3,24 +3,34 @@ package com.hongik.ce.f23.team1.screw.user.dto;
 
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import com.hongik.ce.f23.team1.screw.user.domain.User.LoginMethod;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.lang.Nullable;
 
-@Data
 @Getter
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
+@ToString
 public class SignUpRequest {
 
-  @NotNull
+  @NotEmpty
+  @Email
   private String email;
-  @NotNull
+
+  @NotEmpty
   private String password;
+
+  @NotEmpty
+  @Size(min = 2, max = 20)
   private String nickname;
+
+  // TODO: Job을 Enum으로 분리 필요
   private String job;
+
 
   public SignUpRequest(
       String email,

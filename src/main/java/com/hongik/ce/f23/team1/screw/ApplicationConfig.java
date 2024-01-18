@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfig {
 
-  private final EntityManager em;
-
   public ApplicationConfig(EntityManager em) {
-    this.em = em;
   }
 }
 
