@@ -23,7 +23,7 @@ public class PasswordJpaRepository implements PasswordRepository {
   }
 
   public Optional<Password> findByUserId(long userId) {
-    List<Password> passwords = em.createQuery("SELECT user FROM Password password WHERE password.user.id = :userId",
+    List<Password> passwords = em.createQuery("SELECT password FROM Password password WHERE password.user.id = :userId",
             Password.class)
         .setParameter("userId", userId)
         .getResultList();
