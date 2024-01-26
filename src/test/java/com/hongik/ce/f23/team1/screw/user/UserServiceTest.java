@@ -12,10 +12,9 @@ import com.hongik.ce.f23.team1.screw.user.application.UserService;
 import com.hongik.ce.f23.team1.screw.user.domain.Password;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import com.hongik.ce.f23.team1.screw.user.domain.User.LoginMethod;
-import com.hongik.ce.f23.team1.screw.user.dto.SignInRequest;
-import com.hongik.ce.f23.team1.screw.user.dto.SignUpRequest;
 import com.hongik.ce.f23.team1.screw.user.repository.PasswordRepository;
 import com.hongik.ce.f23.team1.screw.user.repository.UserRepository;
+import com.hongik.ce.f23.team1.screw.user.ui.dto.SignUpRequest;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -129,10 +128,8 @@ class UserServiceTest {
   void 로그인_성공() {
     // given: 회원가입 로직을 위한 SignInRequest 제공한다.
     //        Repository가 반환하는 mockUser, mockPassword를 제공한다.
-    SignInRequest signInRequest = new SignInRequest(
-        "test@gmail.com",
-        "rawpassword"
-    );
+    String email = "test@gmail.com";
+    String password = "rawpassword";
 
     User mockUser = mock(User.class);
     Password mockPassword = mock(Password.class);
@@ -143,30 +140,29 @@ class UserServiceTest {
         .thenReturn(Optional.of(mockPassword));
 
     when(mockUser.getId()).thenReturn(1L);
-    when(mockUser.getEmail()).thenReturn(signInRequest.getEmail());
-    when(mockPassword.getPassword()).thenReturn(signInRequest.getPassword());
+    when(mockUser.getEmail()).thenReturn(email);
+    when(mockPassword.getPassword()).thenReturn(password);
 
     // when: 로그인 로직을 실행한다.
-    final User user = userService.signIn(signInRequest);
+    final User user = userService.login(email, password);
 
     // when: 로그인에 성공한다.
-    assertThat(user.getEmail()).isEqualTo(signInRequest.getEmail());
+    assertThat(user.getEmail()).isEqualTo(email);
   }
 
   @Test
   void 로그인_실패_아이디_없음() {
     // given: 회원가입 로직을 위한 SignInRequest 제공한다.
     //        signInRequest.email은 존재하지 않는 이메일이다.
-    SignInRequest signInRequest = new SignInRequest(
-        "test@gmail.com",
-        "rawpassword"
-    );
+    String email = "test@gmail.com";
+    String password = "rawpassword";
 
-    when(userRepository.findByEmail(signInRequest.getEmail()))
+    when(userRepository.findByEmail(email))
         .thenReturn(Optional.empty());
 
     // when: 로그인 로직을 실행한다.
-    Throwable throwable = catchThrowable(() -> userService.signIn(signInRequest));
+    Throwable throwable = catchThrowable(
+        () -> userService.login(email, password));
 
     // when: 로그인에 실패한다.
     assertThat(throwable)
@@ -178,10 +174,8 @@ class UserServiceTest {
   void 로그인_실패_비밀번호_불일치() {
     // given: 회원가입 로직을 위한 SignInRequest 제공한다.
     //        Repository가 반환하는 mockUser, mockPassword를 제공한다.
-    SignInRequest signInRequest = new SignInRequest(
-        "test@gmail.com",
-        "rawpassword"
-    );
+    String email = "test@gmail.com";
+    String password = "rawpassword";
 
     User mockUser = mock(User.class);
     Password mockPassword = mock(Password.class);
@@ -195,7 +189,8 @@ class UserServiceTest {
     when(mockPassword.getPassword()).thenReturn("");
 
     // when: 로그인 로직을 실행한다.
-    Throwable throwable = catchThrowable(() -> userService.signIn(signInRequest));
+    Throwable throwable = catchThrowable(
+        () -> userService.login(email, password));
 
     // when: 로그인에 실패한다.
     assertThat(throwable)

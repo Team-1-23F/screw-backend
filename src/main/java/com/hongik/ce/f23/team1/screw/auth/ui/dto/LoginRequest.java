@@ -1,4 +1,4 @@
-package com.hongik.ce.f23.team1.screw.user.dto;
+package com.hongik.ce.f23.team1.screw.auth.ui.dto;
 
 
 import jakarta.validation.constraints.Email;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString
-public class SignInRequest {
+public class LoginRequest {
 
   @NotEmpty
   @Email
@@ -20,13 +20,5 @@ public class SignInRequest {
   @NotEmpty
   private String password;
 
-
-  public SignInRequest(
-      String email,
-      String password
-  ) {
-    this.email = email;
-    this.password = password;
-  }
 
 }
