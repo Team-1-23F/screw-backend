@@ -61,7 +61,7 @@ class UserServiceTest {
     when(userRepository.findByNickname(anyString())).thenReturn(Optional.empty());
 
     // when: 회원가입 로직을 실행한다.
-    User signUpUser = userService.signUp(signUpRequest);
+    User signUpUser = userService.signUp(expectedUser, signUpRequest.getPassword());
 
     // then: 회원가입 로직이 반환한 User와 기대값이 일치한다.
     assertThat(signUpUser.getId()).isEqualTo(expectedUser.getId());
@@ -89,7 +89,10 @@ class UserServiceTest {
         ));
 
     // when: 회원가입 로직을 실행한다.
-    Throwable throwable = catchThrowable(() -> userService.signUp(signUpRequest));
+    Throwable throwable = catchThrowable(() -> userService.signUp(
+        signUpRequest.toUserEntity(LoginMethod.PASSWORD),
+        signUpRequest.getPassword())
+    );
 
     // then: 이메일 중복 예외가 발생한다.
     assertThat(throwable)
@@ -115,7 +118,10 @@ class UserServiceTest {
         ));
 
     // when: 회원가입 로직을 실행한다.
-    Throwable throwable = catchThrowable(() -> userService.signUp(signUpRequest));
+    Throwable throwable = catchThrowable(() -> userService.signUp(
+        signUpRequest.toUserEntity(LoginMethod.PASSWORD),
+        signUpRequest.getPassword())
+    );
 
     // then: 닉네임 중복 예외가 발생한다.
     assertThat(throwable)

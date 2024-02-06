@@ -2,8 +2,6 @@ package com.hongik.ce.f23.team1.screw.user.application;
 
 import com.hongik.ce.f23.team1.screw.user.domain.Password;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
-import com.hongik.ce.f23.team1.screw.user.domain.User.LoginMethod;
-import com.hongik.ce.f23.team1.screw.user.ui.dto.SignUpRequest;
 import com.hongik.ce.f23.team1.screw.user.repository.PasswordRepository;
 import com.hongik.ce.f23.team1.screw.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -26,21 +24,19 @@ public class UserService {
     this.passwordRepository = passwordRepository;
   }
 
-  public User signUp(@NonNull SignUpRequest signUpRequest) throws IllegalStateException {
-    final User user = signUpRequest.toUserEntity(LoginMethod.PASSWORD);
 
+  public User signUp(@NonNull User user, @NonNull String password) throws IllegalStateException {
     validateDuplicateUser(user);
 
     final User newUser = userRepository.save(user);
 
     passwordRepository.save(Password.builder()
         .user(newUser)
-        .password(signUpRequest.getPassword())
+        .password(password)
         .build());
 
     return newUser;
   }
-
 
   public User login(@NonNull String email, @NonNull String password) {
     final User user = userRepository.findByEmail(email)
