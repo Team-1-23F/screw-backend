@@ -1,5 +1,4 @@
-package com.hongik.ce.f23.team1.screw.user.dto;
-
+package com.hongik.ce.f23.team1.screw.auth.ui.dto;
 
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import com.hongik.ce.f23.team1.screw.user.domain.User.LoginMethod;
@@ -15,7 +14,7 @@ import org.springframework.lang.Nullable;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString
-public class SignUpRequest {
+public class JoinRequest {
 
   @NotEmpty
   @Email
@@ -32,7 +31,7 @@ public class SignUpRequest {
   private String job;
 
 
-  public SignUpRequest(
+  public JoinRequest(
       String email,
       String password,
       String nickname,
