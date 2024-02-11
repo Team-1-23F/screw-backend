@@ -57,7 +57,6 @@ public class AuthController {
   }
 
   private void registerSession(HttpSession session, MemberId memberId) {
-    // TODO: 세션의 attribute 이름 상수화하기
     session.setAttribute(SessionConst.LOGIN_MEMBER, memberId);
     // TODO: 글로벌로 설정하는 것이 더 나을 수 있겠지만 일단 다음과 같이 설정
     session.setMaxInactiveInterval(1800);
