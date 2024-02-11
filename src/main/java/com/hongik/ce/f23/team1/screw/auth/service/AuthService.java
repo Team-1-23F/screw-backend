@@ -25,8 +25,10 @@ public class AuthService {
     return new MemberId(user.getId());
   }
 
-  public User join(JoinRequest joinRequest) {
-    return userService.signUp(joinRequest.toUserEntity(LoginMethod.PASSWORD), joinRequest.getPassword());
-
+  public void join(JoinRequest joinRequest) {
+    userService.signUp(
+        joinRequest.toUserEntity(LoginMethod.PASSWORD),
+        joinRequest.getPassword()
+    );
   }
 }

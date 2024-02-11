@@ -19,7 +19,8 @@ public class ApplicationConfig implements WebMvcConfigurer {
         .order(1)
         .addPathPatterns("/**")
         // TODO: 요구사항 검토 필요
-        .excludePathPatterns("/auth/login");
+        .excludePathPatterns("/auth/login", "/auth/join");
   }
+
 }
 

@@ -22,7 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
   ) throws Exception {
 
     if (handler instanceof HandlerMethod) {
-      if (!checkSession(request)) {
+      if (hasNoSession(request)) {
         response.sendError(401);
         return false;
       }
@@ -31,9 +31,9 @@ public class AuthInterceptor implements HandlerInterceptor {
     return true;
   }
 
-  private boolean checkSession(@NonNull HttpServletRequest request) {
+  private boolean hasNoSession(@NonNull HttpServletRequest request) {
     final HttpSession session = request.getSession(false);
 
-    return session != null && session.getAttribute(SessionConst.LOGIN_MEMBER) != null;
+    return session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null;
   }
 }

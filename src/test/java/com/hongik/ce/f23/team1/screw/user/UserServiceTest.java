@@ -8,6 +8,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.hongik.ce.f23.team1.screw.global.exception.ScrewException;
+import com.hongik.ce.f23.team1.screw.global.exception.ScrewExceptionInfo;
 import com.hongik.ce.f23.team1.screw.user.application.UserService;
 import com.hongik.ce.f23.team1.screw.user.domain.Password;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
@@ -96,8 +98,8 @@ class UserServiceTest {
 
     // then: 이메일 중복 예외가 발생한다.
     assertThat(throwable)
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("이미 사용중인 이메일입니다.");
+        .isInstanceOf(ScrewException.class)
+        .hasFieldOrPropertyWithValue("exceptionInfo", ScrewExceptionInfo.DUPLICATED_EMAIL);
   }
 
   @Test
@@ -125,8 +127,8 @@ class UserServiceTest {
 
     // then: 닉네임 중복 예외가 발생한다.
     assertThat(throwable)
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("이미 사용중인 닉네임입니다.");
+        .isInstanceOf(ScrewException.class)
+        .hasFieldOrPropertyWithValue("exceptionInfo", ScrewExceptionInfo.DUPLICATED_NICKNAME);
   }
 
 
