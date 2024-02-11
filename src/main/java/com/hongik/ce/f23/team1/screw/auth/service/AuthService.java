@@ -26,7 +26,9 @@ public class AuthService {
   }
 
   public User join(JoinRequest joinRequest) {
-    return userService.signUp(joinRequest.toUserEntity(LoginMethod.PASSWORD), joinRequest.getPassword());
-
+    return userService.signUp(
+        joinRequest.toUserEntity(LoginMethod.PASSWORD),
+        joinRequest.getPassword()
+    );
   }
 }

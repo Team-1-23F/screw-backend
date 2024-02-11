@@ -1,8 +1,11 @@
 package com.hongik.ce.f23.team1.screw;
 
+import com.hongik.ce.f23.team1.screw.global.exception.ScrewHandlerExceptionResolver;
 import com.hongik.ce.f23.team1.screw.global.interceptor.AuthInterceptor;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,7 +22,12 @@ public class ApplicationConfig implements WebMvcConfigurer {
         .order(1)
         .addPathPatterns("/**")
         // TODO: 요구사항 검토 필요
-        .excludePathPatterns("/auth/login");
+        .excludePathPatterns("/auth/login", "/auth/join");
+  }
+
+  @Override
+  public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+    resolvers.add(new ScrewHandlerExceptionResolver());
   }
 }
 

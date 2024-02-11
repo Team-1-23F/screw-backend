@@ -1,5 +1,6 @@
 package com.hongik.ce.f23.team1.screw.user.application;
 
+import com.hongik.ce.f23.team1.screw.global.exception.ScrewException;
 import com.hongik.ce.f23.team1.screw.user.domain.Password;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import com.hongik.ce.f23.team1.screw.user.repository.PasswordRepository;
@@ -54,7 +55,8 @@ public class UserService {
 
   private void validateDuplicateEmail(@NonNull User user) {
     userRepository.findByEmail(user.getEmail()).ifPresent(u -> {
-      throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+      throw new ScrewException("이미 사용중인 이메일입니다.");
+//      throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
     });
   }
 

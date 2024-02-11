@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.hongik.ce.f23.team1.screw.global.exception.ScrewException;
 import com.hongik.ce.f23.team1.screw.user.application.UserService;
 import com.hongik.ce.f23.team1.screw.user.domain.Password;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
@@ -96,7 +97,7 @@ class UserServiceTest {
 
     // then: 이메일 중복 예외가 발생한다.
     assertThat(throwable)
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(ScrewException.class)
         .hasMessage("이미 사용중인 이메일입니다.");
   }
 
