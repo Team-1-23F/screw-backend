@@ -7,15 +7,21 @@ import com.hongik.ce.f23.team1.screw.user.application.UserService;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import com.hongik.ce.f23.team1.screw.user.domain.User.LoginMethod;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 public class AuthService {
 
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final UserService userService;
 
-  public AuthService(UserService userService) {
+  public AuthService(
+      BCryptPasswordEncoder bCryptPasswordEncoder,
+      UserService userService
+  ) {
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     this.userService = userService;
   }
 
@@ -28,7 +34,7 @@ public class AuthService {
   public void join(JoinRequest joinRequest) {
     userService.signUp(
         joinRequest.toUserEntity(LoginMethod.PASSWORD),
-        joinRequest.getPassword()
+        bCryptPasswordEncoder.encode(joinRequest.getPassword())
     );
   }
 }
