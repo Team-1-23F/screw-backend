@@ -1,4 +1,4 @@
-package com.hongik.ce.f23.team1.screw;
+package com.hongik.ce.f23.team1.screw.config;
 
 import com.hongik.ce.f23.team1.screw.global.interceptor.AuthInterceptor;
 import jakarta.persistence.EntityManager;
