@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -27,15 +28,15 @@ public class ScrewExceptionHandler {
         .body(ExceptionResponse.from(ex.getExceptionInfo()));
   }
 
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  @ExceptionHandler
-  public ResponseEntity<ExceptionResponse> handleException(Exception ex) {
-    log.error("알 수 없는 에러 발생", ex);
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler(NoResourceFoundException.class)
+  public void handleNotFoundException() {
+  }
 
-    return ResponseEntity.internalServerError()
-        .body(
-            new ExceptionResponse("0", "알 수 없는 에러 발생")
-        );
+  @ExceptionHandler(RuntimeException.class)
+  public ResponseEntity<ExceptionResponse> handleException() {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(ExceptionResponse.from(ScrewExceptionInfo.UNCATCHABLE_ERROR));
   }
 
   private HttpStatus getStatusCode(ScrewException ex) {
