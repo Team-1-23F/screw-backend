@@ -13,8 +13,10 @@ public enum ScrewExceptionInfo {
   EXPIRED_TOKEN("3", "토큰이 만료되었습니다."),
   USER_NOT_FOUND("4", "해당 사용자가 존재하지 않습니다."),
   WRONG_PASSWORD("5", "비밀번호가 일치하지 않습니다."),
+  REQUIRE_AUTHENTICATION("6", "인증이 필요합니다."),
 
-  UNCATCHABLE_ERROR("0", "알 수 없는 에러 발생");
+  NOT_FOUND_ERROR("-1", "존재하지 않는 주소입니다."),
+  UNKNOWN_ERROR("0", "알 수 없는 에러 발생");
 
 
   private final String code;

@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -23,20 +22,20 @@ public class ScrewExceptionHandler {
 
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleScrewException(ScrewException ex) {
-
     return ResponseEntity.status(getStatusCode(ex))
         .body(ExceptionResponse.from(ex.getExceptionInfo()));
   }
 
-  @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler(NoResourceFoundException.class)
-  public void handleNotFoundException() {
+  public ResponseEntity<Object> handleNotFoundException() {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(ExceptionResponse.from(ScrewExceptionInfo.NOT_FOUND_ERROR));
   }
 
   @ExceptionHandler(RuntimeException.class)
   public ResponseEntity<ExceptionResponse> handleException() {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ExceptionResponse.from(ScrewExceptionInfo.UNCATCHABLE_ERROR));
+        .body(ExceptionResponse.from(ScrewExceptionInfo.UNKNOWN_ERROR));
   }
 
   private HttpStatus getStatusCode(ScrewException ex) {

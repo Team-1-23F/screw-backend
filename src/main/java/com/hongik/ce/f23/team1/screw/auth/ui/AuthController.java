@@ -1,12 +1,8 @@
 package com.hongik.ce.f23.team1.screw.auth.ui;
 
 
-import com.hongik.ce.f23.team1.screw.auth.domain.MemberId;
 import com.hongik.ce.f23.team1.screw.auth.service.AuthService;
 import com.hongik.ce.f23.team1.screw.auth.ui.dto.JoinRequest;
-import com.hongik.ce.f23.team1.screw.auth.ui.dto.LoginRequest;
-import com.hongik.ce.f23.team1.screw.global.constant.SessionConst;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -33,32 +29,10 @@ public class AuthController {
     return ResponseEntity.ok().build();
   }
 
-  @PostMapping("/login")
-  ResponseEntity<Void> login(@Valid @RequestBody LoginRequest loginRequest, HttpSession session) {
-    try {
-      MemberId memberId = authService.login(loginRequest);
-
-      registerSession(session, memberId);
-    } catch (Exception e) {
-      return ResponseEntity.notFound().build();
-    }
-
-    return ResponseEntity.ok().build();
-  }
-
-
   @PostMapping("/logout")
-  ResponseEntity<Void> logout(HttpSession session) {
-    if (session != null) {
-      session.invalidate();
-    }
+  ResponseEntity<Void> logout() {
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     return ResponseEntity.ok().build();
-  }
-
-  private void registerSession(HttpSession session, MemberId memberId) {
-    session.setAttribute(SessionConst.LOGIN_MEMBER, memberId);
-    // TODO: 글로벌로 설정하는 것이 더 나을 수 있겠지만 일단 다음과 같이 설정
-    session.setMaxInactiveInterval(1800);
   }
 }

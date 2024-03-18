@@ -1,6 +1,6 @@
-package com.hongik.ce.f23.team1.screw.auth.service;
+package com.hongik.ce.f23.team1.screw.config.security;
 
-import com.hongik.ce.f23.team1.screw.config.security.CustomUserDetails;
+import com.hongik.ce.f23.team1.screw.global.exception.ScrewExceptionInfo;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import com.hongik.ce.f23.team1.screw.user.repository.UserRepository;
 import java.util.Optional;
@@ -22,8 +22,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
     Optional<User> user = userRepository.findByEmail(email);
 
-    return user.map(CustomUserDetails::new).orElse(null);
+    if (user.isPresent()) {
+      return user.map(CustomUserDetails::new).get();
+    }
+
+    throw new UsernameNotFoundException(ScrewExceptionInfo.USER_NOT_FOUND.getMessage());
   }
 }
