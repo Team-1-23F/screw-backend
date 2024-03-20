@@ -1,6 +1,7 @@
 package com.hongik.ce.f23.team1.screw.config.security;
 
 
+import com.hongik.ce.f23.team1.screw.auth.repository.RefreshTokenRepository;
 import com.hongik.ce.f23.team1.screw.config.security.filter.JwtFilter;
 import com.hongik.ce.f23.team1.screw.config.security.filter.LoginFilter;
 import com.hongik.ce.f23.team1.screw.util.JwtUtil;
@@ -27,6 +28,7 @@ public class SecurityConfig {
   private final AuthenticationConfiguration authenticationConfiguration;
   private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JwtUtil jwtUtil;
+  private final RefreshTokenRepository refreshTokenRepository;
 
 
   @Bean
@@ -42,7 +44,7 @@ public class SecurityConfig {
 
   @Bean
   public LoginFilter loginFilter() throws Exception {
-    LoginFilter loginFilter = new LoginFilter(jwtUtil);
+    LoginFilter loginFilter = new LoginFilter(refreshTokenRepository, jwtUtil);
     loginFilter.setFilterProcessesUrl("/auth/login");
     loginFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
 
@@ -75,7 +77,8 @@ public class SecurityConfig {
             (auth) -> auth
                 .requestMatchers(
                     "/auth/join",
-                    "/auth/login"
+                    "/auth/login",
+                    "/auth/refresh"
 //                    , "/error"
                 ).permitAll()
                 .anyRequest().authenticated()

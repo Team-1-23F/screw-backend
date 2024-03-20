@@ -1,6 +1,7 @@
 package com.hongik.ce.f23.team1.screw.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hongik.ce.f23.team1.screw.auth.repository.RefreshTokenRepository;
 import com.hongik.ce.f23.team1.screw.auth.ui.dto.LoginRequest;
 import com.hongik.ce.f23.team1.screw.config.security.CustomUserDetails;
 import com.hongik.ce.f23.team1.screw.util.JwtUtil;
@@ -11,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,14 +23,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Slf4j
-@AllArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
-  static final Long ACCESS_TOKEN_EXP = 10 * 60 * 1000L; // 10분
-  static final Long REFRESH_TOKEN_EXP = 3 * 24 * 60 * 60 * 1000L; // 3일
+
+  private final RefreshTokenRepository refreshTokenRepository;
+  private final JwtUtil jwtUtil;
 
   private final ObjectMapper objectMapper = new ObjectMapper();
-  private final JwtUtil jwtUtil;
+
+  @Autowired
+  public LoginFilter(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil) {
+    this.refreshTokenRepository = refreshTokenRepository;
+    this.jwtUtil = jwtUtil;
+  }
 
 
   @Override
@@ -54,10 +60,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     Long userId = userDetails.getUserId();
 
-    String accessToken = jwtUtil.createJwtToken(userId, ACCESS_TOKEN_EXP);
-    String refreshToken = jwtUtil.createJwtToken(userId, REFRESH_TOKEN_EXP);
+    String accessToken = jwtUtil.createAccessToken(userId);
+    String refreshToken = jwtUtil.createRefreshToken(userId);
 
     setTokens(response, accessToken, refreshToken);
+
+    refreshTokenRepository.save(userId, refreshToken);
 
     super.successfulAuthentication(request, response, chain, authResult);
   }

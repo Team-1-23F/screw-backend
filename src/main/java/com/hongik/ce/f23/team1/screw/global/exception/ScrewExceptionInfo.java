@@ -14,7 +14,9 @@ public enum ScrewExceptionInfo {
   USER_NOT_FOUND("4", "해당 사용자가 존재하지 않습니다."),
   WRONG_PASSWORD("5", "비밀번호가 일치하지 않습니다."),
   REQUIRE_AUTHENTICATION("6", "인증이 필요합니다."),
+  WRONG_TOKEN("7", "잘못된 토큰입니다."),
 
+  BAD_REQUEST("-2", "잘못된 요청입니다."),
   NOT_FOUND_ERROR("-1", "존재하지 않는 주소입니다."),
   UNKNOWN_ERROR("0", "알 수 없는 에러 발생");
 

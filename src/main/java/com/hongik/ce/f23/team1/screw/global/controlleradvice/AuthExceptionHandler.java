@@ -46,7 +46,7 @@ public class AuthExceptionHandler {
   @ExceptionHandler(JwtException.class)
   public ResponseEntity<ExceptionResponse> handleJwtException() {
     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-        .body(ExceptionResponse.from(ScrewExceptionInfo.REQUIRE_AUTHENTICATION));
+        .body(ExceptionResponse.from(ScrewExceptionInfo.WRONG_TOKEN));
   }
 
 
