@@ -8,8 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -22,20 +22,20 @@ public class ScrewExceptionHandler {
 
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleScrewException(ScrewException ex) {
+
     return ResponseEntity.status(getStatusCode(ex))
         .body(ExceptionResponse.from(ex.getExceptionInfo()));
   }
 
-  @ExceptionHandler(NoResourceFoundException.class)
-  public ResponseEntity<Object> handleNotFoundException() {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ExceptionResponse.from(ScrewExceptionInfo.NOT_FOUND_ERROR));
-  }
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(Exception ex) {
+    log.error("알 수 없는 에러 발생", ex);
 
-  @ExceptionHandler(RuntimeException.class)
-  public ResponseEntity<ExceptionResponse> handleException() {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ExceptionResponse.from(ScrewExceptionInfo.UNKNOWN_ERROR));
+    return ResponseEntity.internalServerError()
+        .body(
+            new ExceptionResponse("0", "알 수 없는 에러 발생")
+        );
   }
 
   private HttpStatus getStatusCode(ScrewException ex) {
