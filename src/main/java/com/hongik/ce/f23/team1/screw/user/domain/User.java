@@ -56,12 +56,14 @@ public class User extends AuditableEntity {
 
   @Builder
   public User(
+      Long id,
       String email,
       String nickname,
       @Nullable
       String job,
       LoginMethod loginMethod
   ) {
+    this.id = id;
     this.email = email;
     this.nickname = nickname;
     this.job = job;
