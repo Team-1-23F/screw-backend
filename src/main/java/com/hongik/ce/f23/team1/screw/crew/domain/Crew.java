@@ -17,12 +17,17 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@ToString
 public class Crew extends AuditableEntity {
 
   @Id
@@ -57,8 +62,27 @@ public class Crew extends AuditableEntity {
   @ManyToMany
   @JoinTable(
       name = "crew_tag",
-      joinColumns = @JoinColumn(name = "tag_id"),
-      inverseJoinColumns = @JoinColumn(name = "crew_id")
+      joinColumns = @JoinColumn(name = "crew_id"),
+      inverseJoinColumns = @JoinColumn(name = "tag_id")
   )
   private List<Tag> tags;
+
+  @Builder
+  public Crew(
+      Long id,
+      String name,
+      String description,
+      CrewOption crewOption,
+      List<CrewMember> crewMembers,
+      List<Routine> routines,
+      List<Tag> tags
+      ) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.crewOption = crewOption;
+    this.crewMembers =crewMembers;
+    this.routines = routines;
+    this.tags = tags;
+  }
 }

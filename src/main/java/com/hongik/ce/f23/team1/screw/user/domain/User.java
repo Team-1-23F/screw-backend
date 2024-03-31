@@ -26,7 +26,7 @@ import org.springframework.lang.Nullable;
     of = {"id"},
     callSuper = true
 )
-@ToString(of = {"id", "email", "nickname"})
+@ToString(of = {"id", "email", "nickname", "job", "loginMethod"})
 public class User extends AuditableEntity {
 
   @Id

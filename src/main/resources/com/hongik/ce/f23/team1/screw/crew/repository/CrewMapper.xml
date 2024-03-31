@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongik.ce.f23.team1.screw.crew.repository.CrewMapper">
+<!--  <resultMap id="CrewResultMap" type="com.hongik.ce.f23.team1.screw.crew.domain.Crew">-->
+<!--    <id column="id" jdbcType="INTEGER" property="id"/>-->
+<!--    <result column="name" jdbcType="VARCHAR" property="name"/>-->
+<!--    <result column="description" jdbcType="VARCHAR" property="description"/>-->
+<!--    <result column="description" jdbcType="VARCHAR" property="description"/>-->
+<!--    <result column="maximum_member" jdbcType="INTEGER" property="crewOption.maximumMember"/>-->
+<!--    <collection javaType="ArrayList" property="tags"/>-->
+<!--  </resultMap>-->
+
+  <insert id="save" useGeneratedKeys="true" keyProperty="id">
+    insert into crew (name, description, maximum_member, created_at, updated_at)
+    values (#{name}, #{description}, #{crewOption.maximumMember}, now(), now())
+  </insert>
+
+  <select id="findAllWithTag" resultType="com.hongik.ce.f23.team1.screw.crew.domain.Crew">
+    select *
+    from crew
+           left join crew_tag ct on crew.id = ct.crew_id
+  </select>
+
+  <select id="findById"
+    resultType="com.hongik.ce.f23.team1.screw.crew.domain.Crew">
+    select *
+    from crew
+    where id = #{id}
+  </select>
+</mapper>

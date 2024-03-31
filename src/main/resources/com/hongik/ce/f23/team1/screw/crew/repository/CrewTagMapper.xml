@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongik.ce.f23.team1.screw.crew.repository.CrewTagMapper">
+
+
+  <insert id="saveAll" parameterType="Map">
+    insert into crew_tag(crew_id, tag_id) values
+    <foreach collection="tagIds" item="element" separator=",">
+      (
+      #{crewId}, #{element}
+      )
+    </foreach>
+  </insert>
+</mapper>

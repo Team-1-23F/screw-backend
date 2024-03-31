@@ -7,6 +7,7 @@ import com.hongik.ce.f23.team1.screw.user.domain.User;
 import com.hongik.ce.f23.team1.screw.user.repository.PasswordRepository;
 import com.hongik.ce.f23.team1.screw.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -47,6 +48,10 @@ public class UserService {
     checkPassword(user.getId(), password);
 
     return user;
+  }
+
+  public Optional<User> findById(@NonNull Long id) {
+    return userRepository.findById(id);
   }
 
   private void validateDuplicateUser(User user) {
