@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongik.ce.f23.team1.screw.crew.repository.mapper.CrewMapper">
+  <resultMap id="crewResult" type="Crew">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <association property="crewOption" javaType="CrewOption">
+      <result property="maximumMember" column="maximum_member"/>
+    </association>
+    <collection
+      property="crewMembers"
+      resultMap="crewMemberResult"
+      columnPrefix="crew_member_"
+    />
+    <collection
+      property="tags"
+      resultMap="tagResult"
+      columnPrefix="tag_"
+    />
+  </resultMap>
+
+  <resultMap id="tagResult" type="Tag">
+    <result property="id" column="id"/>
+    <result property="name" column="name"/>
+  </resultMap>
+
+  <resultMap id="crewMemberResult" type="CrewMember">
+    <result property="point" column="point"/>
+    <result property="isCreator" column="is_creator"/>
+    <result property="joinedAt" column="joined_at"/>
+    <association property="user" columnPrefix="user_" javaType="User">
+      <result property="id" column="id"/>
+      <result property="email" column="email"/>
+      <result property="nickname" column="nickname"/>
+      <result property="job" column="job"/>
+      <result property="loginMethod" column="loginMethod"/>
+    </association>
+  </resultMap>
+
+
+  <insert id="save" useGeneratedKeys="true" keyProperty="id">
+    insert into crew (name, description, maximum_member, created_at, updated_at)
+    values (#{name}, #{description}, #{crewOption.maximumMember}, now(), now())
+  </insert>
+
+  <select
+    id="findAll"
+    resultMap="crewResult"
+  >
+    select c.id             as id,
+           c.name           as name,
+           c.description    as description,
+           c.maximum_member as maximum_member,
+           t.id             as tag_id,
+           t.name           as tag_name,
+           cm.id            as crew_member_id,
+           cm.point         as crew_member_point,
+           cm.is_creator    as crew_member_is_creator,
+           cm.joined_at     as crew_member_joined_at,
+           u.id             as crew_member_user_id,
+           u.email          as crew_member_user_email,
+           u.job            as crew_member_user_job,
+           u.nickname       as crew_member_user_nickname,
+           u.login_method   as crew_member_user_login_method
+    from crew c
+           left join crew_tag ct on c.id = ct.crew_id
+           left join crew_member cm on c.id = cm.crew_id
+           inner join tag t on ct.tag_id = t.id
+           inner join user u on cm.user_id = u.id
+
+  </select>
+
+
+  <select
+    id="findById"
+    resultMap="crewResult"
+  >
+    select c.id             as id,
+           c.name           as name,
+           c.description    as description,
+           c.maximum_member as maximum_member,
+           t.id             as tag_id,
+           t.name           as tag_name,
+           cm.id            as crew_member_id,
+           cm.point         as crew_member_point,
+           cm.is_creator    as crew_member_is_creator,
+           cm.joined_at     as crew_member_joined_at,
+           u.id             as crew_member_user_id,
+           u.email          as crew_member_user_email,
+           u.job            as crew_member_user_job,
+           u.nickname       as crew_member_user_nickname,
+           u.login_method   as crew_member_user_login_method
+    from crew c
+           left join crew_tag ct on c.id = ct.crew_id
+           left join crew_member cm on c.id = cm.crew_id
+           inner join tag t on ct.tag_id = t.id
+           inner join user u on cm.user_id = u.id
+    where c.id = #{id}
+  </select>
+
+
+</mapper>

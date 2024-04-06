@@ -16,17 +16,19 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @EqualsAndHashCode(
     of = {"id"},
     callSuper = true
 )
-@ToString(of = {"id", "email", "nickname"})
+@ToString(of = {"id", "email", "nickname", "job", "loginMethod"})
 public class User extends AuditableEntity {
 
   @Id
