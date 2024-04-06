@@ -6,8 +6,6 @@
 
   <insert id="save">
     insert into crew_member(crew_id, user_id, is_creator, point, joined_at)
-    values (
-           #{crew.id}, #{user.id}, #{isCreator}, #{point}, now()
-            )
+    values (#{crew.id}, #{user.id}, #{isCreator}, #{point}, now())
   </insert>
 </mapper>

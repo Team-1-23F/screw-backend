@@ -55,7 +55,6 @@ public class CrewController {
 
   @GetMapping("/{crewId}")
   ResponseEntity<Crew> getOne(@PathVariable("crewId") Long crewId) {
-    log.debug("~~~~a");
     Optional<Crew> crew = crewService.getOne(crewId);
 
     if (crew.isPresent()) {

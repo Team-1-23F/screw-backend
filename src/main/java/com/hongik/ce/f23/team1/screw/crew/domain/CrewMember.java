@@ -15,13 +15,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity(name = "crew_member")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@Getter
 public class CrewMember {
 
 
@@ -33,7 +37,7 @@ public class CrewMember {
   private Long point;
 
   @Column(nullable = false)
-  private boolean isCreator;
+  private Boolean isCreator;
 
   @CreatedDate
   private LocalDateTime joinedAt;

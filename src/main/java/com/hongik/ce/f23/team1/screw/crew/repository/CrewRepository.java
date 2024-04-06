@@ -25,7 +25,6 @@ public class CrewRepository {
   }
 
   public Optional<Crew> findById(Long id) {
-    log.debug("~~~~b: {}", id);
 
     return crewMapper.findById(id);
   }

@@ -13,7 +13,7 @@
     </foreach>
   </insert>
 
-  <select id="findByNames"  resultType="com.hongik.ce.f23.team1.screw.crew.domain.Tag">
+  <select id="findByNames"  resultType="Tag">
     select *
     from tag
     where name in
