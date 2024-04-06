@@ -1,4 +1,4 @@
-package com.hongik.ce.f23.team1.screw.crew.repository;
+package com.hongik.ce.f23.team1.screw.crew.repository.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;

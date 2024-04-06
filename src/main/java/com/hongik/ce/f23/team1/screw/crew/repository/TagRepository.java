@@ -1,6 +1,7 @@
 package com.hongik.ce.f23.team1.screw.crew.repository;
 
 import com.hongik.ce.f23.team1.screw.crew.domain.Tag;
+import com.hongik.ce.f23.team1.screw.crew.repository.mapper.TagMapper;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
