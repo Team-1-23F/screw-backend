@@ -44,15 +44,9 @@
   </select>
 
 
-  <select id="findAllWithTag" resultType="com.hongik.ce.f23.team1.screw.crew.domain.Crew">
-    select *
-    from crew
-           left join crew_tag ct on crew.id = ct.crew_id
-  </select>
-
-  <select id="findById"
+  <select
+    id="findById"
     resultMap="crewResult"
-    resultType="com.hongik.ce.f23.team1.screw.crew.domain.Crew"
   >
     select c.id             as id,
            c.name           as name,

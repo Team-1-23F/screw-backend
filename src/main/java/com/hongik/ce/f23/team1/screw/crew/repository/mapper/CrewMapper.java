@@ -15,5 +15,4 @@ public interface CrewMapper {
   // MyBatis Mapper 인터페이스의 메서드중에서 파라미터가 2개가 넘는 경우에는 @Param 어노테이션을 추가하자
   Optional<Crew> findById(Long id);
 
-
 }

@@ -82,7 +82,7 @@ public class SecurityConfig {
                     "/auth/refresh"
 //                    , "/error"
                 ).permitAll()
-                .requestMatchers(HttpMethod.GET, "/crew")
+                .requestMatchers(HttpMethod.GET, "/crew", "/crew/**")
                 .permitAll()
                 .anyRequest().authenticated()
         );

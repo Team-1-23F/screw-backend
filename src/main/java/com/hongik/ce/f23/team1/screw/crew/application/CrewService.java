@@ -11,6 +11,7 @@ import com.hongik.ce.f23.team1.screw.crew.repository.TagRepository;
 import com.hongik.ce.f23.team1.screw.crew.ui.dto.CreateCrewRequest;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,10 @@ public class CrewService {
 
   public List<Crew> getAll() {
     return crewRepository.findAll();
+  }
+
+  public Optional<Crew> getOne(Long id) {
+    return crewRepository.findById(id);
   }
 
   private List<Tag> createTags(List<String> tagNames) {
