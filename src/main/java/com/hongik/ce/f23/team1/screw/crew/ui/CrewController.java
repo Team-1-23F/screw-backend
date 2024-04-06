@@ -2,17 +2,20 @@ package com.hongik.ce.f23.team1.screw.crew.ui;
 
 import com.hongik.ce.f23.team1.screw.config.security.CustomUserDetails;
 import com.hongik.ce.f23.team1.screw.crew.application.CrewService;
+import com.hongik.ce.f23.team1.screw.crew.domain.Crew;
 import com.hongik.ce.f23.team1.screw.crew.ui.dto.CreateCrewRequest;
 import com.hongik.ce.f23.team1.screw.global.exception.ScrewException;
 import com.hongik.ce.f23.team1.screw.global.exception.ScrewExceptionInfo;
 import com.hongik.ce.f23.team1.screw.user.application.UserService;
 import com.hongik.ce.f23.team1.screw.user.domain.User;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +40,15 @@ public class CrewController {
       throw new ScrewException(ScrewExceptionInfo.USER_NOT_FOUND);
     }
 
-    crewService.createCrew(request, user.get());
+    crewService.create(request, user.get());
 
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping
+  ResponseEntity<List<Crew>> getAll() {
+    List<Crew> crews = crewService.getAll();
+
+    return ResponseEntity.ok(crews);
   }
 }

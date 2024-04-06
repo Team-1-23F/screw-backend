@@ -28,7 +28,7 @@ public class CrewService {
 
 
   @Transactional
-  public void createCrew(CreateCrewRequest createCrewRequest, User creator) {
+  public void create(CreateCrewRequest createCrewRequest, User creator) {
     // Tag 생성
     List<Tag> tags = createTags(createCrewRequest.getTags());
 
@@ -61,6 +61,10 @@ public class CrewService {
     crewMemberRepository.save(crewMember);
   }
 
+  public List<Crew> getAll() {
+    return crewRepository.findAll();
+  }
+
   private List<Tag> createTags(List<String> tagNames) {
     final List<Tag> tags = tagNames
         .stream()
@@ -73,4 +77,6 @@ public class CrewService {
     tagRepository.saveAll(tags);
     return tags;
   }
+
+
 }

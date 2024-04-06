@@ -19,12 +19,11 @@ public class CrewRepository {
     crewMapper.save(crew);
   }
 
+  public List<Crew> findAll() {
+    return crewMapper.findAll();
+  }
 
   public Optional<Crew> findById(Long id) {
     return crewMapper.findById(id);
-  }
-
-  public List<Crew> findAllWithTag() {
-    return crewMapper.findAllWithTag();
   }
 }
